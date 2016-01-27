@@ -67,16 +67,19 @@ def my_ksmooth(X, y, sigma=1.0):
     norm(scale=sigma).pdf(value) # normal density at 'value'
 
 def readCSV(filename):
+    import time
+    start = time.time()
     with open(filename, 'rb') as csvfile:
         csvObj = csv.DictReader(csvfile, delimiter=',')
-        X = []
-        y = []
-        for row in csvObj:
-            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
-            itemY = int(row['dropoff_BoroCode'])
-            X.append(itemX)
-            y.append(itemY)
-        print my_knn(X, y, 100)
+        v_extractXY = np.vectorize(extractXY)
+        x, y = v_extractXY(csvObj)
+        print "import csv needs: ", time.time() - start
+        # print my_knn(X, y, 100)
+def extractXY(row):
+    itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
+    itemY = int(row['dropoff_BoroCode'])
+    return itemX, itemY
+
 def main():
     x = [[1,2],[3,4],[5,6],[8,9],[10,10]]
     y = [1,2,3,4,5]
