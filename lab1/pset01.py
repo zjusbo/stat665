@@ -79,10 +79,37 @@ def q1():
         proba = my_knn(X_train, y_train, X_test, 100)
         print proba
 
+def q2():
+    import re
+    with open('nyc_train.csv', 'rb') as trainfile:
+        trainObj = csv.DictReader(trainfile, delimiter = ',')
+        X_train = []
+        y_train = []
+        for row in trainObj:
+            pickup_datetime = row['pickup_datetime']
+            pickup_neighborhood = row['pickup_BoroCode']
+            head, sep, tail = pickup_datetime.partition(' ')
+            hour = tail.partition(':')
+            print hour
+            return 
+            itemY = int(row['dropoff_BoroCode'])
+            if itemY != 1:
+                itemY = 0
+            X_train.append(itemX)
+            y_train.append(itemY)
+    with open('nyc_test.csv', 'rb') as testfile:
+        testObj = csv.DictReader(testfile, delimiter = ',')
+        X_test = []
+        for row in testObj:
+            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
+            X_test.append(itemX)
+        proba = my_knn(X_train, y_train, X_test, 100)
+        print proba
+
 def main():
     pass
 
 start = 0
 if __name__ == "__main__": 
    #  main()
-   q1()
+   q2()
