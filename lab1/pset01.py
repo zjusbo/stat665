@@ -6,10 +6,10 @@ Due date: 2016-02-05 13:00
 """
 import csv
 import numpy as np
-from scipy import spatial
-from scipy.stats import norm
+from sklearn.neighbors import KNeighborsClassifier
+import time
 
-def my_knn(X, y, k=1):
+def my_knn(X_train, y_train, k=1):
     """ Basic k-nearest neighbor functionality
 
     k-nearest neighbor regression for a numeric test
@@ -27,22 +27,12 @@ def my_knn(X, y, k=1):
     Returns:
       a 1d numpy array of predicted responses for each row of the input matrix X
     """
-    #distmat = spatial.distance.pdist(X)
-    
-    # find indices
-    # indices = np.argpartition(distmat, k)[:k]
+    X_train = np.array(X_train)
+    nbrs = KNeighborsClassifier(n_neighbors = k)
+    nbrs.fit(X_train, y_train)
+    proba = nbrs.predict_proba(X_train)[:,1]
+    return proba
 
-    # select k minimum dist indices in dist matrix
-    predict = []
-    for i in xrange(0, len(y)):
-        # find k nearest negibor for i-th x
-        currentX = [X[i]]
-        distmat = spatial.distance.cdist(currentX, X, 'euclidean')[0]
-        indices = np.argpartition(distmat, k)[:k]
-        probability = float(sum([y[i] for i in indices])) / len(indices)
-        predict.append(probability)
-    return predict
-    
 def my_ksmooth(X, y, sigma=1.0):
     """ Kernel smoothing function
 
@@ -66,28 +56,25 @@ def my_ksmooth(X, y, sigma=1.0):
     value = 1
     norm(scale=sigma).pdf(value) # normal density at 'value'
 
-def readCSV(filename):
-    import time
-    start = time.time()
-    with open(filename, 'rb') as csvfile:
-        csvObj = csv.DictReader(csvfile, delimiter=',')
-        v_extractXY = np.vectorize(extractXY)
-        x, y = v_extractXY(csvObj)
-        print "import csv needs: ", time.time() - start
-        # print my_knn(X, y, 100)
-def extractXY(row):
-    itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
-    itemY = int(row['dropoff_BoroCode'])
-    return itemX, itemY
+def q1():
+    with open('nyc_train.csv', 'rb') as trainfile:
+        trainObj = csv.DictReader(trainfile, delimiter = ',')
+        X_train = []
+        y_train = []
+        for row in trainObj:
+            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
+            itemY = int(row['dropoff_BoroCode'])
+            if itemY != 1:
+                itemY = 0
+            X_train.append(itemX)
+            y_train.append(itemY)
+        proba = my_knn(X_train, y_train, 100)
+        print proba
 
 def main():
-    x = [[1,2],[3,4],[5,6],[8,9],[10,10]]
-    y = [1,2,3,4,5]
-    ny = np.array(y)
-    nx = np.array(x)
-    print my_knn(nx, ny, 3)
+    pass
 
-
+start = 0
 if __name__ == "__main__": 
    #  main()
-   readCSV('nyc_train.csv')
+   q1()
