@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 import time
 
-def my_knn(X_train, y_train, k=1):
+def my_knn(X_train, y_train, X_test, k=1):
     """ Basic k-nearest neighbor functionality
 
     k-nearest neighbor regression for a numeric test
@@ -33,7 +33,7 @@ def my_knn(X_train, y_train, k=1):
     proba = nbrs.predict_proba(X_train)[:,1]
     return proba
 
-def my_ksmooth(X, y, sigma=1.0):
+def my_ksmooth(X_train, y_train, X_test, sigma=1.0):
     """ Kernel smoothing function
 
     kernel smoother for a numeric test matrix with a Gaussian
@@ -52,9 +52,11 @@ def my_ksmooth(X, y, sigma=1.0):
     Returns:
       a 1d numpy array of predicted responses for each row of the input matrix X
     """
-    distmat = spatial.distance.pdist(X)
-    value = 1
-    norm(scale=sigma).pdf(value) # normal density at 'value'
+    from sklearn.linear_model import LinearRegression
+    lr = LinearRegression()
+    lr.fit(X_train, y_train)
+    y_predict = lr.predict(X_test)
+    return y_predict
 
 def q1():
     with open('nyc_train.csv', 'rb') as trainfile:
@@ -68,7 +70,13 @@ def q1():
                 itemY = 0
             X_train.append(itemX)
             y_train.append(itemY)
-        proba = my_knn(X_train, y_train, 100)
+    with open('nyc_test.csv', 'rb') as testfile:
+        testObj = csv.DictReader(testfile, delimiter = ',')
+        X_test = []
+        for row in testObj:
+            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
+            X_test.append(itemX)
+        proba = my_knn(X_train, y_train, X_test, 100)
         print proba
 
 def main():
