@@ -58,6 +58,13 @@ def my_ksmooth(X_train, y_train, X_test, sigma=1.0):
     y_predict = lr.predict(X_test)
     return y_predict
 
+def ridgeRegression(X_train, y_train, X_test):
+    from sklearn.linear_model import RidgeCV
+    rc = RidgeCV()
+    rc.fit(X_train, y_train)
+    y_predict = rc.predict(X_test)
+    return y_predict
+
 def q1():
     with open('nyc_train.csv', 'rb') as trainfile:
         trainObj = csv.DictReader(trainfile, delimiter = ',')
@@ -89,22 +96,61 @@ def q2():
             pickup_datetime = row['pickup_datetime']
             pickup_neighborhood = row['pickup_BoroCode']
             head, sep, tail = pickup_datetime.partition(' ')
-            hour = tail.partition(':')
-            print hour
-            return 
+            hour, sep, minute_second = tail.partition(':')
+            pickup_neighborhood = int(pickup_neighborhood)
+            hour = int(hour)
             itemY = int(row['dropoff_BoroCode'])
             if itemY != 1:
                 itemY = 0
-            X_train.append(itemX)
+            X_train.append([hour, pickup_neighborhood])
             y_train.append(itemY)
     with open('nyc_test.csv', 'rb') as testfile:
         testObj = csv.DictReader(testfile, delimiter = ',')
         X_test = []
         for row in testObj:
-            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
-            X_test.append(itemX)
-        proba = my_knn(X_train, y_train, X_test, 100)
-        print proba
+            pickup_datetime = row['pickup_datetime']
+            pickup_neighborhood = row['pickup_BoroCode']
+            head, sep, tail = pickup_datetime.partition(' ')
+            hour, sep, minute_second = tail.partition(':')
+            pickup_neighborhood = int(pickup_neighborhood)
+            hour = int(hour)
+            X_test.append([hour, pickup_neighborhood])
+        predict = my_ksmooth(X_train, y_train, X_test)
+        print predict
+
+def q3():
+    import re
+    with open('nyc_train.csv', 'rb') as trainfile:
+        trainObj = csv.DictReader(trainfile, delimiter = ',')
+        X_train = []
+        y_train = []
+        for row in trainObj:
+            pickup_datetime = row['pickup_datetime']
+            pickup_neighborhood = row['pickup_BoroCode']
+            head, sep, tail = pickup_datetime.partition(' ')
+            hour, sep, minute_second = tail.partition(':')
+            pickup_neighborhood = int(pickup_neighborhood)
+            hour = int(hour)
+            itemY = int(row['dropoff_BoroCode'])
+            if itemY != 1:
+                itemY = 0
+            X_train.append([hour, pickup_neighborhood])
+            y_train.append(itemY)
+    with open('nyc_test.csv', 'rb') as testfile:
+        testObj = csv.DictReader(testfile, delimiter = ',')
+        X_test = []
+        for row in testObj:
+            pickup_datetime = row['pickup_datetime']
+            pickup_neighborhood = row['pickup_BoroCode']
+            head, sep, tail = pickup_datetime.partition(' ')
+            hour, sep, minute_second = tail.partition(':')
+            pickup_neighborhood = int(pickup_neighborhood)
+            hour = int(hour)
+            X_test.append([hour, pickup_neighborhood])
+            # dummy variable? 
+            # check manual or implement it by hand
+        y_predict = ridgeRegression(X_train, y_train, X_test)
+        print y_predict   
 
 def main():
     pass
@@ -112,4 +158,4 @@ def main():
 start = 0
 if __name__ == "__main__": 
    #  main()
-   q2()
+   q3()
