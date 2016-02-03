@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 import time
 
-def my_knn(X_train, y_train, X_test, k=1):
+def my_knn(X_train, y_train, k=1):
     """ Basic k-nearest neighbor functionality
 
     k-nearest neighbor regression for a numeric test
@@ -77,13 +77,7 @@ def q1():
                 itemY = 0
             X_train.append(itemX)
             y_train.append(itemY)
-    with open('nyc_test.csv', 'rb') as testfile:
-        testObj = csv.DictReader(testfile, delimiter = ',')
-        X_test = []
-        for row in testObj:
-            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
-            X_test.append(itemX)
-        proba = my_knn(X_train, y_train, X_test, 100)
+        proba = my_knn(X_train, y_train, 100)
         print proba
 
 def q2():
@@ -158,4 +152,4 @@ def main():
 start = 0
 if __name__ == "__main__": 
    #  main()
-   q3()
+   q1()
