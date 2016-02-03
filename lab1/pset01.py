@@ -6,6 +6,8 @@ Due date: 2016-02-05 13:00
 """
 import csv
 import numpy as np
+from scipy import spatial
+from scipy.stats import norm
 from sklearn.neighbors import KNeighborsClassifier
 import time
 
@@ -27,13 +29,16 @@ def my_knn(X_train, y_train, k=1):
     Returns:
       a 1d numpy array of predicted responses for each row of the input matrix X
     """
-    X_train = np.array(X_train)
-    nbrs = KNeighborsClassifier(n_neighbors = k)
-    nbrs.fit(X_train, y_train)
-    proba = nbrs.predict_proba(X_train)[:,1]
-    return proba
+    distmat = spatial.distance.pdist(X_train)
+    distsquareform = spatial.distance.squareform(distmat)
+    for row in distsquareform:
+        print row
+        kindices = row.argsort()[:k]
+        print kindices
+    print distsquareform
+    return 0
 
-def my_ksmooth(X_train, y_train, X_test, sigma=1.0):
+def my_ksmooth(X_train, y_train, sigma=1.0):
     """ Kernel smoothing function
 
     kernel smoother for a numeric test matrix with a Gaussian
@@ -70,6 +75,7 @@ def q1():
         trainObj = csv.DictReader(trainfile, delimiter = ',')
         X_train = []
         y_train = []
+        count = 0
         for row in trainObj:
             itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
             itemY = int(row['dropoff_BoroCode'])
@@ -77,6 +83,9 @@ def q1():
                 itemY = 0
             X_train.append(itemX)
             y_train.append(itemY)
+            count += 1
+            if count == 5:
+                break
         proba = my_knn(X_train, y_train, 100)
         print proba
 
