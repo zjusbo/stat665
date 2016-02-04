@@ -47,7 +47,7 @@ def ridgeRegression(X_train, y_train, X_test):
     rc = RidgeCV()
     rc.fit(X_train, y_train)
     y_predict = rc.predict(X_test)
-    return y_predict
+    return y_predict, rc
 
 def q1():
     with open('nyc_train.csv', 'rb') as trainfile:
@@ -203,8 +203,8 @@ def q3():
         X_test = np.column_stack((x1_category, x2_category))
         X_test = X_test.astype(int)
 
-        predict = ridgeRegression(X_train, y_train, X_test)
-        return predict
+        predict, model = ridgeRegression(X_train, y_train, X_test)
+        return predict, model
 
 def gencsv():
     predict1 = q1()
@@ -228,7 +228,7 @@ def plot():
     for i in x1_unit:
         for j in x2_unit:
             X_test.append(list(i) + list(j))
-    predict, model = q2()
+    predict, model = q3()
     y_predict = model.predict(X_test)
     x1 = []
     y1 = []
