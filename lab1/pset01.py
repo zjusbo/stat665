@@ -8,8 +8,6 @@ import csv
 import numpy as np
 from scipy import spatial
 from scipy.stats import norm
-from sklearn.neighbors import KNeighborsClassifier
-import time
 
 def my_knn(X_train, y_train, k=1):
     """ Basic k-nearest neighbor functionality
@@ -31,13 +29,14 @@ def my_knn(X_train, y_train, k=1):
     """
     distmat = spatial.distance.pdist(X_train)
     distsquareform = spatial.distance.squareform(distmat)
+    predict_y = []    
     for row in distsquareform:
-        print row
-        kindices = row.argsort()[:k]
-        print kindices
-    print distsquareform
-    return 0
-
+        kindices = row.argsort()[:k] # pick up K-nearest neighbors
+        neighbors_y = [y_train[i] for i in kindices] # pick up y of neighbors
+        proba = float(sum(neighbors_y)) / len(neighbors_y) # cal probability 
+        predict_y.append(proba)
+    return predict_y
+    
 def my_ksmooth(X_train, y_train, sigma=1.0):
     """ Kernel smoothing function
 
@@ -57,108 +56,16 @@ def my_ksmooth(X_train, y_train, sigma=1.0):
     Returns:
       a 1d numpy array of predicted responses for each row of the input matrix X
     """
-    from sklearn.linear_model import LinearRegression
-    lr = LinearRegression()
-    lr.fit(X_train, y_train)
-    y_predict = lr.predict(X_test)
-    return y_predict
-
-def ridgeRegression(X_train, y_train, X_test):
-    from sklearn.linear_model import RidgeCV
-    rc = RidgeCV()
-    rc.fit(X_train, y_train)
-    y_predict = rc.predict(X_test)
-    return y_predict
-
-def q1():
-    with open('nyc_train.csv', 'rb') as trainfile:
-        trainObj = csv.DictReader(trainfile, delimiter = ',')
-        X_train = []
-        y_train = []
-        count = 0
-        for row in trainObj:
-            itemX = [float(row['pickup_longitude']), float(row['pickup_latitude'])]
-            itemY = int(row['dropoff_BoroCode'])
-            if itemY != 1:
-                itemY = 0
-            X_train.append(itemX)
-            y_train.append(itemY)
-            count += 1
-            if count == 5:
-                break
-        proba = my_knn(X_train, y_train, 100)
-        print proba
-
-def q2():
-    import re
-    with open('nyc_train.csv', 'rb') as trainfile:
-        trainObj = csv.DictReader(trainfile, delimiter = ',')
-        X_train = []
-        y_train = []
-        for row in trainObj:
-            pickup_datetime = row['pickup_datetime']
-            pickup_neighborhood = row['pickup_BoroCode']
-            head, sep, tail = pickup_datetime.partition(' ')
-            hour, sep, minute_second = tail.partition(':')
-            pickup_neighborhood = int(pickup_neighborhood)
-            hour = int(hour)
-            itemY = int(row['dropoff_BoroCode'])
-            if itemY != 1:
-                itemY = 0
-            X_train.append([hour, pickup_neighborhood])
-            y_train.append(itemY)
-    with open('nyc_test.csv', 'rb') as testfile:
-        testObj = csv.DictReader(testfile, delimiter = ',')
-        X_test = []
-        for row in testObj:
-            pickup_datetime = row['pickup_datetime']
-            pickup_neighborhood = row['pickup_BoroCode']
-            head, sep, tail = pickup_datetime.partition(' ')
-            hour, sep, minute_second = tail.partition(':')
-            pickup_neighborhood = int(pickup_neighborhood)
-            hour = int(hour)
-            X_test.append([hour, pickup_neighborhood])
-        predict = my_ksmooth(X_train, y_train, X_test)
-        print predict
-
-def q3():
-    import re
-    with open('nyc_train.csv', 'rb') as trainfile:
-        trainObj = csv.DictReader(trainfile, delimiter = ',')
-        X_train = []
-        y_train = []
-        for row in trainObj:
-            pickup_datetime = row['pickup_datetime']
-            pickup_neighborhood = row['pickup_BoroCode']
-            head, sep, tail = pickup_datetime.partition(' ')
-            hour, sep, minute_second = tail.partition(':')
-            pickup_neighborhood = int(pickup_neighborhood)
-            hour = int(hour)
-            itemY = int(row['dropoff_BoroCode'])
-            if itemY != 1:
-                itemY = 0
-            X_train.append([hour, pickup_neighborhood])
-            y_train.append(itemY)
-    with open('nyc_test.csv', 'rb') as testfile:
-        testObj = csv.DictReader(testfile, delimiter = ',')
-        X_test = []
-        for row in testObj:
-            pickup_datetime = row['pickup_datetime']
-            pickup_neighborhood = row['pickup_BoroCode']
-            head, sep, tail = pickup_datetime.partition(' ')
-            hour, sep, minute_second = tail.partition(':')
-            pickup_neighborhood = int(pickup_neighborhood)
-            hour = int(hour)
-            X_test.append([hour, pickup_neighborhood])
-            # dummy variable? 
-            # check manual or implement it by hand
-        y_predict = ridgeRegression(X_train, y_train, X_test)
-        print y_predict   
-
-def main():
-    pass
-
-start = 0
-if __name__ == "__main__": 
-   #  main()
-   q1()
+    distmat = spatial.distance.pdist(X_train)
+    distsquareform = spatial.distance.squareform(distmat)
+    y_predict = []
+    for row in distsquareform:
+        sum_weight = 0.
+        proba = 0.
+        for i in xrange(0, len(row)):
+            weight = norm(scale=sigma).pdf(row[i])
+            proba += weight * y_train[i]
+            sum_weight += weight
+        proba = proba / sum_weight
+        y_predict.append(proba)
+    return y_predict # normal density at 'value'
