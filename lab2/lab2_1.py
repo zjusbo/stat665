@@ -92,37 +92,40 @@ class additivemodel(object):
 
 # Save the results as "results.csv"
 def main():
-  if len(sys.argv) < 3:
-    print("Usage: <training file> <test file>")
-    return 
-  trainfile = sys.argv[1]
-  testfile = sys.argv[2]
-  train_y = []
-  train_X = []
-  
   # read train data
-  with open(trainfile, 'rb') as csvfile:
-    trainreader = csv.reader(csvfile, delimiter = ',')
-    for row in trainreader:
-       y = float(row[0])
-       X = map(float, row[1:]) 
-       train_y.append(y)
-       train_X.append(X)
-  test_X = []
-  
-  # read test data
-  with open(testfile, 'rb') as csvfile:
-    testreader = csv.reader(csvfile, delimiter = ',')
-    for row in testreader:
-       X = map(float, row) 
-       test_X.append(X)
-  model = additivemodel()
-  model.fit(train_X, train_y)
-  predict_y = model.predict(test_X)
-  
-  # save result
-  save(predict_y)  
+  with open("ct_rac_S000_JT00_2013.csv", 'rb') as csvfile:
+    reader = csv.DictReader(csvfile, delimiter = ',')
+    data = {}
+    
+    # init key of data
+    for row in reader:
+      for key in row.iterkeys():
+        data[key] = []
+      break
 
+    # read data
+    for row in reader:
+       for key, value in row.iteritems():
+        data[key].append(value)
+
+    X = []
+    y = []
+    C000 = np.array(data['C000']).astype(float)
+    for key, value in data.iteritems():      
+      if key not in ['h_geocode', 'C000', 'CE01', 'CE02', 'CE03']:
+        # convert to np array
+        v = np.array(value).astype(int)
+        v = np.divide(v, C000)
+        v = v.reshape((-1,1))
+        if X == []: # first column
+          X = v
+        else:
+          X = np.hstack((X, v))
+    # X stores the feature matrix
+    # construct y
+    CE03 = np.array(data['CE03']).astype(float)
+    y = np.array(np.divide(CE03, C000))
+    
 def save(x):
   with open("results.csv", 'wb') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter = ',')

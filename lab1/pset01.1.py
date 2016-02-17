@@ -4,6 +4,7 @@ Please make sure your code runs on Python version 3.5.0
 
 Due date: 2016-02-05 13:00
 """
+
 import csv
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
