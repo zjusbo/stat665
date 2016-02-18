@@ -111,10 +111,10 @@ def main():
   X, y, ct_d = load(filenames[0])
 
   
-  print "loading ny..."
-  ny_X, ny_y, ny_d = load(filenames[1])
-  print "loading ca..."
-  ca_X, ca_y, ca_d = load(filenames[2])
+  # print "loading ny..."
+  # ny_X, ny_y, ny_d = load(filenames[1])
+  # print "loading ca..."
+  # ca_X, ca_y, ca_d = load(filenames[2])
   # print "loading mt..."
   # mt_X, mt_y, mt_d = load(filenames[3])
 
@@ -139,55 +139,55 @@ def main():
   rtree = rfr(n_estimators = 79, max_features = 10, oob_score = True)    
 
   rtree.fit(X, y)
-  
+  print rtree.feature_importances_  
 
-    # MSE = getmse(rtree.oob_prediction_, y)
-    # print "Error for ct: ", MSE
+  #   # MSE = getmse(rtree.oob_prediction_, y)
+  #   # print "Error for ct: ", MSE
     
-    # rtree.fit(ny_X, ny_y)
-    # MSE = getmse(rtree.oob_prediction_, ny_y)
-  # rtree.fit(ca_X, ca_y)
-  h_geocode = ny_d['h_geocode']
-  for i in xrange(0, len(h_geocode)):
-    h_geocode[i] = h_geocode[i][2:5]
-  uni_geocode = set(h_geocode)
-  h_geocode = np.array(h_geocode)
-  ny_y = np.array(ny_y)
+  #   # rtree.fit(ny_X, ny_y)
+  #   # MSE = getmse(rtree.oob_prediction_, ny_y)
+  # # rtree.fit(ca_X, ca_y)
+  # h_geocode = ny_d['h_geocode']
+  # for i in xrange(0, len(h_geocode)):
+  #   h_geocode[i] = h_geocode[i][2:5]
+  # uni_geocode = set(h_geocode)
+  # h_geocode = np.array(h_geocode)
+  # ny_y = np.array(ny_y)
   
-  predict_y = rtree.predict(ny_X)
-  predict_y = np.array(predict_y)
+  # predict_y = rtree.predict(ny_X)
+  # predict_y = np.array(predict_y)
 
-  mses = []
-  for item in uni_geocode:
-    idx = np.where(h_geocode == item)
-    MSE = getmse(predict_y[idx], ny_y[idx])
-    mses.append([MSE, item])
-  mses = sorted(mses)
-  maxmses = mses[-10:]
-  print "ny.."
-  print maxmses
+  # mses = []
+  # for item in uni_geocode:
+  #   idx = np.where(h_geocode == item)
+  #   MSE = getmse(predict_y[idx], ny_y[idx])
+  #   mses.append([MSE, item])
+  # mses = sorted(mses)
+  # maxmses = mses[-10:]
+  # print "ny.."
+  # print maxmses
   
-  print "dealing with ca..."
-  h_geocode = ca_d['h_geocode']
-  for i in xrange(0, len(h_geocode)):
-    h_geocode[i] = h_geocode[i][2:5]
-  uni_geocode = set(h_geocode)
-  h_geocode = np.array(h_geocode)
-  ca_y = np.array(ca_y)
+  # print "dealing with ca..."
+  # h_geocode = ca_d['h_geocode']
+  # for i in xrange(0, len(h_geocode)):
+  #   h_geocode[i] = h_geocode[i][2:5]
+  # uni_geocode = set(h_geocode)
+  # h_geocode = np.array(h_geocode)
+  # ca_y = np.array(ca_y)
   
-  predict_y = rtree.predict(ca_X)
-  predict_y = np.array(predict_y)
+  # predict_y = rtree.predict(ca_X)
+  # predict_y = np.array(predict_y)
 
-  print 'calculating MSE for ca...'
-  mses = []
-  for item in uni_geocode:
-    idx = np.where(h_geocode == item)
-    MSE = getmse(predict_y[idx], ca_y[idx])
-    mses.append([MSE, item])
-  mses = sorted(mses)
-  maxmses = mses[-10:]
-  print "ca.."
-  print maxmses
+  # print 'calculating MSE for ca...'
+  # mses = []
+  # for item in uni_geocode:
+  #   idx = np.where(h_geocode == item)
+  #   MSE = getmse(predict_y[idx], ca_y[idx])
+  #   mses.append([MSE, item])
+  # mses = sorted(mses)
+  # maxmses = mses[-10:]
+  # print "ca.."
+  # print maxmses
 
 
     
