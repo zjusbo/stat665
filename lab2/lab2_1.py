@@ -4,6 +4,7 @@ import argparse
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 from scipy.interpolate import interp1d
+from sklearn.ensemble import RandomForestRegressor as rfr
 
 import sys
 import csv
@@ -121,11 +122,19 @@ def main():
           X = v
         else:
           X = np.hstack((X, v))
+
     # X stores the feature matrix
     # construct y
     CE03 = np.array(data['CE03']).astype(float)
     y = np.array(np.divide(CE03, C000))
     
+    for i in xrange(10, 50):
+      rtree = rfr(n_estimators = i, max_features = 10, oob_score = True)    
+      rtree.fit(X, y)
+      print i, rtree.oob_score_
+
+
+
 def save(x):
   with open("results.csv", 'wb') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter = ',')
