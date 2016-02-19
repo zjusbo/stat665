@@ -126,7 +126,6 @@ def main():
 def save(x):
   with open("results.csv", 'wb') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter = ',')
-    print x
     for row in x:
       csvwriter.writerow([row])
 
