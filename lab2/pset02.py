@@ -28,8 +28,8 @@ class additivemodel(object):
 
   def fit(self, X, y):
     # convert list to np array
-    X = np.array(X)
-    y = np.array(y)  
+    X = np.array(X).astype(float)
+    y = np.array(y).astype(float)  
 
     # x matrix, for inerpolation
     self.X = X
@@ -46,9 +46,9 @@ class additivemodel(object):
     self.alpha_hat = np.average(y)
 
     # iterate for 25 times
-    for i in xrange(0, 25):
+    for i in range(0, 25):
       # for every variable
-      for j in xrange(0, self.p):
+      for j in range(0, self.p):
         r_j = y - self.alpha_hat - (np.sum(self.g, 1) - self.g[:, j])
         self.g[:, j] = self.smooth(X[:, j], r_j) 
         self.g[:, j] = self.g[:, j] - np.average(self.g[:, j])
@@ -62,7 +62,7 @@ class additivemodel(object):
   # gen interpolate model 
   def _interpolate(self):
     # for every variable j
-    for j in xrange(0, self.p):
+    for j in range(0, self.p):
       col_x = self.X[:,j]
       col_y = self.g[:,j]
       order = col_x.argsort()
@@ -71,11 +71,11 @@ class additivemodel(object):
   def predict(self, X):
     # use model g to predict on X
     # for every variable j
-    X = np.array(X)
+    X = np.array(X).astype(float)
     
     # 1 * n, row np vector
     predict_y = np.zeros((1, X.shape[0]))
-    for j in xrange(0, self.p):
+    for j in range(0, self.p):
       # 1 * n, row list vector
       g = self.interp1dmodel[j](X[:,j])
       predict_y += g
@@ -101,20 +101,22 @@ def main():
   train_X = []
   
   # read train data
-  with open(trainfile, 'rb') as csvfile:
+  with open(trainfile, 'r') as csvfile:
     trainreader = csv.reader(csvfile, delimiter = ',')
     for row in trainreader:
-       y = float(row[0])
-       X = map(float, row[1:]) 
+       y = row[0]
+
+       X = row[1:] 
+
        train_y.append(y)
        train_X.append(X)
   test_X = []
   
   # read test data
-  with open(testfile, 'rb') as csvfile:
+  with open(testfile, 'r') as csvfile:
     testreader = csv.reader(csvfile, delimiter = ',')
     for row in testreader:
-       X = map(float, row) 
+       X = row 
        test_X.append(X)
   model = additivemodel()
   model.fit(train_X, train_y)
@@ -124,7 +126,7 @@ def main():
   save(predict_y)  
 
 def save(x):
-  with open("results.csv", 'wb') as csvfile:
+  with open("results.csv", 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter = ',')
     for row in x:
       csvwriter.writerow([row])
