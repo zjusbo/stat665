@@ -5,8 +5,6 @@ import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 from scipy.interpolate import interp1d
 from sklearn.ensemble import RandomForestRegressor as rfr
-
-
 from sklearn.linear_model import LinearRegression
 import sys
 import csv

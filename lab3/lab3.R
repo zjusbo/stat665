@@ -1,0 +1,1 @@
+trainfile = read.table("chiCrimeTrain.psv")

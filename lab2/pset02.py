@@ -13,8 +13,6 @@ import csv
 # Use linear interpolation to predict new values on the test data
 #   interp1d
 
-
-
 class additivemodel(object):
   """docstring for additivemodel"""
   def __init__(self):
