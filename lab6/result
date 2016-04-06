@@ -1,0 +1,22 @@
+I.
+2 nodes, 0.333
+8 nodes, 0.711
+32 nodes, 0.694
+128 nodes, 0.757
+512 nodes, 0.786
+
+II
+
+1 layer, 512 nodes in each layer, 0.786 
+2 layers, 512 nodes in each layer, 0.761
+3 layers, 512 nodes in each layer, 0.752
+4 layers, 512 nodes in each layer, 0.774
+5 layers, 512 nodes in each layer, 
+
+III
+freezing 0.790
+
+IV auto encoder
+
+V auto encoder as pretraining
+

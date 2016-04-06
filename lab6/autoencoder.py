@@ -5,6 +5,7 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.optimizers import RMSprop
 from keras.utils import np_utils
+from keras.callbacks import EarlyStopping
 
 # function to read in and process the cifar-10 data
 def load_data():
@@ -41,22 +42,25 @@ def copy_freeze_model(model, nlayers = 1):
 
 # for testing your code, you can downsample the data.
 # for example, here we use just the first 1000 observations
-X_train = X_train[:1000]
-X_test = X_test[:1000]
-Y_train = Y_train[:1000]
-Y_test = Y_test[:1000]
+#X_train = X_train[:1000]
+#X_test = X_test[:1000]
+#Y_train = Y_train[:1000]
+#Y_test = Y_test[:1000]
 
 # simple example: one hidden layer with 16 hidden nodes
 model = Sequential()
-model.add(Dense(16, input_shape=(3072,)))
+# JIAJIA: PLEASE CHANGE THE PARAMETER BELOW TO 32, 128, 512, 1024 
+# LOVE YOU ME ME DA!
+model.add(Dense(32, input_shape=(3072,)))
+# ITS ABOVE THIS LINE
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(3))
-model.add(Activation('softmax'))
+model.add(Dense(3072))
+model.add(Activation('relu'))
 
 rms = RMSprop()
-model.compile(loss='categorical_crossentropy', optimizer=rms)
-model.fit(X_train, Y_train, batch_size=32, nb_epoch=25, verbose=1,
-          show_accuracy=True, validation_split=0.2)
+model.compile(loss='mean_squared_error', optimizer=rms)
+model.fit(X_train, X_train, batch_size=32, nb_epoch=25, verbose=1,
+          show_accuracy=True, validation_split=0.2,callbacks=[EarlyStopping(patience=2)])
 
-print('Classifcation rate %02.3f' % model.evaluate(X_test, Y_test, show_accuracy=True)[1])
+print('Classifcation rate %02.3f' % model.evaluate(X_test, X_test, show_accuracy=True)[1])
