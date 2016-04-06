@@ -60,6 +60,8 @@ model.compile(loss='categorical_crossentropy', optimizer=rms)
 model.fit(X_train, Y_train, batch_size=32, nb_epoch=25, verbose=1,
           show_accuracy=True, validation_split=0.2)
 
+print('layer 1')
+print('Classifcation rate %02.3f' % model.evaluate(X_test, Y_test, show_accuracy=True)[1])
 for i in range(1, 5):
     print("training " , i , "th layer")
     model = copy_freeze_model(model, i * 3)
@@ -72,7 +74,5 @@ for i in range(1, 5):
     model.compile(loss='categorical_crossentropy', optimizer=rms)
     model.fit(X_train, Y_train, batch_size=32, nb_epoch=25, verbose=1,
           show_accuracy=True, validation_split=0.2)
-
-
-
-print('Classifcation rate %02.3f' % model.evaluate(X_test, Y_test, show_accuracy=True)[1])
+    print('layer', i + 1)
+    print('Classifcation rate %02.3f' % model.evaluate(X_test, Y_test, show_accuracy=True)[1])

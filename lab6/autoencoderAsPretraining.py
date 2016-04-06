@@ -71,6 +71,6 @@ for i in range(1, 5):
     model.compile(loss='categorical_crossentropy', optimizer=rms)
     model.fit(X_train, Y_train, batch_size=32, nb_epoch=25, verbose=1,
           show_accuracy=True, validation_split=0.2,callbacks=[EarlyStopping(patience=2)])
+    print('layer' , i)
+    print('Classifcation rate %02.3f' % model.evaluate(X_test, X_test, show_accuracy=True)[1])
 
-
-print('Classifcation rate %02.3f' % model.evaluate(X_test, X_test, show_accuracy=True)[1])
