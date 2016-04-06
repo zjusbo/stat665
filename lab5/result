@@ -1,0 +1,329 @@
+
+3072 50 10 10
+Epoch 0 training complete
+Accuracy on evaluation data: 2574 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3031 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3337 / 10000
+
+Epoch 3 training complete
+Accuracy on evaluation data: 3602 / 10000
+
+Epoch 4 training complete
+Accuracy on evaluation data: 3750 / 10000
+
+$ python3 starter_code.py
+[3072, 50, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 3473 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3889 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4049 / 10000
+
+[3072, 100, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 3697 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3702 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4206 / 10000
+
+[3072, 100, 20, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 2827 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3319 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3663 / 10000
+
+[3072, 100, 50, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 3009 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3370 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3649 / 10000
+
+[3072, 200, 20, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 2823 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3301 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3643 / 10000
+
+[3072, 200, 50, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 2801 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3413 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3707 / 10000
+
+[3072, 200, 50, 20, 10]
+Epoch 0 training complete
+Accuracy on evaluation data: 1447 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 1963 / 10000
+
+
+$ python3 starter_code.py
+[3072, 200, 50, 10] 0.01 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 2718 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3156 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3379 / 10000
+
+[3072, 200, 50, 10] 0.03 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 2532 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 2989 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3296 / 10000
+
+[3072, 200, 50, 10] 0.1 0.01
+
+
+sbo@SBO-PC /C/Users/sbo/Desktop/workspace/
+$ python3 starter_code.py
+[3072, 100, 10] 0.01 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3468 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3613 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3892 / 10000
+
+[3072, 100, 10] 0.03 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3354 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3629 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4000 / 10000
+
+[3072, 100, 10] 0.1 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3288 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3799 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3967 / 10000
+
+[3072, 100, 10] 0.3 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3404 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3622 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3832 / 10000
+
+[3072, 100, 10] 1 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3395 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3776 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3932 / 10000
+
+[3072, 100, 10] 3 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3501 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3723 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4024 / 10000
+
+[3072, 100, 10] 10 0.01
+Epoch 0 training complete
+Accuracy on evaluation data: 3375 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3718 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 3881 / 10000
+
+[3072, 100, 10] 0.01 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3763 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4156 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4208 / 10000
+
+[3072, 100, 10] 0.03 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3843 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4008 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4230 / 10000
+
+[3072, 100, 10] 0.1 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3664 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3879 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4197 / 10000
+
+[3072, 100, 10] 0.3 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3537 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4169 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4262 / 10000
+
+[3072, 100, 10] 1 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3378 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4010 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4103 / 10000
+
+[3072, 100, 10] 3 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3845 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4003 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4153 / 10000
+
+[3072, 100, 10] 10 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3758 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 3817 / 10000
+
+
+$ python3 starter_code.py
+[3072, 100, 10] 0.3 0.03
+Epoch 0 training complete
+Accuracy on evaluation data: 3671 / 10000
+
+Epoch 1 training complete
+Accuracy on evaluation data: 4114 / 10000
+
+Epoch 2 training complete
+Accuracy on evaluation data: 4195 / 10000
+
+Epoch 3 training complete
+Accuracy on evaluation data: 4516 / 10000
+
+Epoch 4 training complete
+Accuracy on evaluation data: 4479 / 10000
+
+Epoch 5 training complete
+Accuracy on evaluation data: 4586 / 10000
+
+Epoch 6 training complete
+Accuracy on evaluation data: 4674 / 10000
+
+Epoch 7 training complete
+Accuracy on evaluation data: 4778 / 10000
+
+Epoch 8 training complete
+Accuracy on evaluation data: 4669 / 10000
+
+Epoch 9 training complete
+Accuracy on evaluation data: 4753 / 10000
+
+Epoch 10 training complete
+Accuracy on evaluation data: 4890 / 10000
+
+Epoch 11 training complete
+Accuracy on evaluation data: 4517 / 10000
+
+Epoch 12 training complete
+Accuracy on evaluation data: 4559 / 10000
+
+Epoch 13 training complete
+Accuracy on evaluation data: 4819 / 10000
+
+Epoch 14 training complete
+Accuracy on evaluation data: 4862 / 10000
+
+Epoch 15 training complete
+Accuracy on evaluation data: 4897 / 10000
+
+Epoch 16 training complete
+Accuracy on evaluation data: 4955 / 10000
+
+Epoch 17 training complete
+Accuracy on evaluation data: 4862 / 10000
+
+Epoch 18 training complete
+Accuracy on evaluation data: 4895 / 10000
+
+Epoch 19 training complete
+Accuracy on evaluation data: 4831 / 10000
+
+
+Epoch 18 training complete
+Accuracy on evaluation data: 5196 / 10000
+
+Epoch 19 training complete
+Accuracy on evaluation data: 5172 / 10000
+
+[[607  21  95   7  29   7  21  43 133  37]
+ [ 47 617  43  12  16  12  28  38  77 110]
+ [ 70  19 548  40 106  30  85  67  27   8]
+ [ 37  11 178 247  83 120 149  88  41  46]
+ [ 48   9 237  30 426  16 103  95  29   7]
+ [ 20  11 188 138  89 293  90 112  42  17]
+ [  9   8 141  33 109  23 615  30  18  14]
+ [ 43  13  89  35  78  36  27 633  23  23]
+ [118  56  27  14  21   7  11  26 685  35]
+ [ 68 170  26  20  20  17  29  70  79 501]]
