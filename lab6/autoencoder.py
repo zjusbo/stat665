@@ -49,8 +49,7 @@ def copy_freeze_model(model, nlayers = 1):
 
 # simple example: one hidden layer with 16 hidden nodes
 model = Sequential()
-# JIAJIA: PLEASE CHANGE THE PARAMETER BELOW TO 32, 128, 512, 1024 
-# LOVE YOU ME ME DA!
+# PLEASE CHANGE THE PARAMETER BELOW TO 32, 128, 512, 1024 
 model.add(Dense(32, input_shape=(3072,)))
 # ITS ABOVE THIS LINE
 model.add(Activation('relu'))
@@ -63,4 +62,4 @@ model.compile(loss='mean_squared_error', optimizer=rms)
 model.fit(X_train, X_train, batch_size=32, nb_epoch=25, verbose=1,
           show_accuracy=True, validation_split=0.2,callbacks=[EarlyStopping(patience=2)])
 
-print('Classifcation rate %02.3f' % model.evaluate(X_test, X_test, show_accuracy=True)[1])
+print('mean_squared_error %02.3f' % model.evaluate(X_test, X_test, show_accuracy=True)[0])

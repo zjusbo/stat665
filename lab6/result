@@ -5,18 +5,19 @@ I.
 128 nodes, 0.757
 512 nodes, 0.786
 
-II
-
+II.
 1 layer, 512 nodes in each layer, 0.786 
 2 layers, 512 nodes in each layer, 0.761
 3 layers, 512 nodes in each layer, 0.752
 4 layers, 512 nodes in each layer, 0.774
-5 layers, 512 nodes in each layer, 
+5 layers, 512 nodes in each layer, 0.746
 
-III
-freezing 0.790
+III. freezing
+0.784 0.802 0.797 0.783 0.788
 
 IV auto encoder
+32      128     512 1024
+0.002   0.005   0.005    0.003
 
 V auto encoder as pretraining
-
+0.779 0.802 0.738 0.689 0.611
