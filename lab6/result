@@ -17,7 +17,7 @@ III. freezing
 
 IV auto encoder
 32      128     512 1024
-0.002   0.005   0.005    0.003
+0.025   0.024   0.024
 
 V auto encoder as pretraining
 0.779 0.802 0.738 0.689 0.611
