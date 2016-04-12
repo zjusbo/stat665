@@ -10,7 +10,7 @@ from keras.utils import np_utils
 
 
 # set this to false once you have tested your code!
-TEST = True
+TEST = False
 # input image dimensions
 img_rows, img_cols = 32, 32
 # the CIFAR10 images are RGB
@@ -108,7 +108,7 @@ def train(model, auto):
         model.compile(loss='mean_squared_error',
               optimizer=RMSprop())
 
-        model.fit(X_train, X_train_auto_output, batch_size=32, nb_epoch=1,
+        model.fit(X_train, X_train_auto_output, batch_size=32, nb_epoch=25,
             verbose=1, show_accuracy=True,
             validation_split=0.2,
             callbacks=[EarlyStopping(monitor='val_loss', patience=2)]
@@ -117,7 +117,7 @@ def train(model, auto):
         model.compile(loss='categorical_crossentropy',
               optimizer=RMSprop())
 
-        model.fit(X_train, Y_train, batch_size=32, nb_epoch=1,
+        model.fit(X_train, Y_train, batch_size=32, nb_epoch=25,
             verbose=1, show_accuracy=True,
             validation_split=0.2,
             callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
