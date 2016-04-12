@@ -156,10 +156,58 @@ def part3():
     model.save_weights('part3_2.h5')
     print("Kernel size: %d * %d, Classification rate %02.5f" % (size, size, model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
 
-def part4(size):
-    pass
+def part4(weights):
+    global X_train, Y_train, X_test, Y_test
+    model = Sequential()
 
+    model.add(Convolution2D(32, size, size, border_mode='same',
+                            input_shape=(img_channels, img_rows, img_cols)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model = add_top_layer(model)
+
+    model.load_weights(weights)
+
+    model = copy_freeze_model(model, 4)
+
+    # add top dense layer
+    model.add(Flatten())
+    model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(10))
+    model.add(Activation('softmax'))
+    
+
+    X_train, Y_train, X_test, Y_test = load_data(10)
+
+    model = train(model, auto=False)
+    print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+
+def part5():
+    size = 3
+    model = Sequential()
+
+    model.add(Convolution2D(32, size, size, border_mode='same',
+                            input_shape=(img_channels, img_rows, img_cols)))
+    model.add(Activation('relu'))
+
+    model.add(Convolution2D(32, size, size))
+
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model = add_top_layer(model)
+
+    model = train(model, auto=False)
+
+    print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+    
 def main():
-    part3()
+    part4('part3_1.h5')
+    part4('part3_2.h5')
 if __name__ == '__main__':
     main()
