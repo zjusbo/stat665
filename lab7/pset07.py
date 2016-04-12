@@ -1,13 +1,22 @@
 import numpy as np
-
 from keras.datasets import cifar10
 from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation
+from keras.preprocessing.image import ImageDataGenerator
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.layers.convolutional import Convolution2D, MaxPooling2D
+from keras.callbacks import EarlyStopping
 from keras.optimizers import RMSprop
 from keras.utils import np_utils
 
+
 # set this to false once you have tested your code!
 TEST = True
+# input image dimensions
+img_rows, img_cols = 32, 32
+# the CIFAR10 images are RGB
+img_channels = 3
+
+data_augmentation = False
 
 # function to read in and process the cifar-10 data; set the
 # number of classes you want
@@ -33,12 +42,6 @@ def load_data(nclass):
     return X_train, Y_train, X_test, Y_test
 
 
-# input image dimensions
-img_rows, img_cols = 32, 32
-# the CIFAR10 images are RGB
-img_channels = 3
-
-data_augmentation = True
 
 X_train, Y_train, X_test, Y_test = load_data(2)
 # Note: You'll need to do this manipulation to construct the
@@ -46,11 +49,18 @@ X_train, Y_train, X_test, Y_test = load_data(2)
 # will have a flattend dense layer on the output, and you need
 # to give Keras a flatted version of X_train
 X_train_auto_output = X_train.reshape(X_train.shape[0], 3072)
+X_test_auto_output = X_test.reshape(X_test.shape[0], 3072)
 
+def copy_freeze_model(model, nlayers = 1):
+    new_model = Sequential()
+    for l in model.layers[:nlayers]:
+        l.trainable = False
+        new_model.add(l)
+    return new_model
 
 def part1(size):
     # Convolution model kernel size
-    # 
+    # 2D convolution
     model = Sequential()
 
     model.add(Convolution2D(32, size, size, border_mode='same',
@@ -63,53 +73,93 @@ def part1(size):
     model.add(Dense(512))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(nb_classes))
+    model.add(Dense(2))
     model.add(Activation('softmax'))
 
+    model = train(model, auto=False)    
+
+    print("Kernel size: %d * %d, Classification rate %02.5f" % (size, size, model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+    return model
+
+def part2(size):
+    # Convolution model kernel size
+    # Autoencoder
+    model = Sequential()
+
+    model.add(Convolution2D(32, size, size, border_mode='same',
+                            input_shape=(img_channels, img_rows, img_cols)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model.add(Flatten())
+    model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(img_channels * img_rows * img_cols))
     
-    # let's train the model using SGD + momentum (how original).
-    model.compile(loss='categorical_crossentropy',
-              optimizer=RMSprop(),
-              metrics=['accuracy'])
+    model = train(model, auto=True)
 
-    if not data_augmentation:
-        model.fit(X_train, Y_train,
-              batch_size=batch_size,
-              nb_epoch=nb_epoch,
-              validation_data=(X_test, Y_test),
-              shuffle=True)
+    print("Kernel size: %d * %d, MSE %02.5f" % (size, size, model.evaluate(X_test, X_test_auto_output, show_accuracy=True)[0]))
+    return model
+
+def train(model, auto):
+    if auto == True:
+        model.compile(loss='mean_squared_error',
+              optimizer=RMSprop())
+
+        model.fit(X_train, X_train_auto_output, batch_size=32, nb_epoch=1,
+            verbose=1, show_accuracy=True,
+            validation_split=0.2,
+            callbacks=[EarlyStopping(monitor='val_loss', patience=2)]
+            )
     else:
-        # this will do preprocessing and realtime data augmentation
-        datagen = ImageDataGenerator(
-            featurewise_center=False,  # set input mean to 0 over the dataset
-            samplewise_center=False,  # set each sample mean to 0
-            featurewise_std_normalization=False,  # divide inputs by std of the dataset
-            samplewise_std_normalization=False,  # divide each input by its std
-            zca_whitening=False,  # apply ZCA whitening
-            rotation_range=0,  # randomly rotate images in the range (degrees, 0 to 180)
-            width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
-            height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
-            horizontal_flip=True,  # randomly flip images
-            vertical_flip=False)  # randomly flip images
+        model.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop())
 
-        # compute quantities required for featurewise normalization
-        # (std, mean, and principal components if ZCA whitening is applied)
-        datagen.fit(X_train)
+        model.fit(X_train, Y_train, batch_size=32, nb_epoch=1,
+            verbose=1, show_accuracy=True,
+            validation_split=0.2,
+            callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
+        
+    return model
 
-        # fit the model on the batches generated by datagen.flow()
-        model.fit_generator(datagen.flow(X_train, Y_train,
-                            batch_size=32),
-                            nb_epoch=25,
-                            verbose = 1,
-                            validation_split=0.2,
-                            show_accuracy = True,
-                            callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
-    print("Kernel size: %d * %d, Classification rate %02.5f" % (kernel_size, kernel_size, model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+
+def add_top_layer(model):
+    # add top dense layer
+    model.add(Flatten())
+    model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(2))
+    model.add(Activation('softmax'))
+    return model
+    
+def part3():
+    size = 3
+    # Convolution model kernel size
+    # Frezzing layer
+    model = part1(size)
+    # copy freeze model 
+    # freeze convolutional layer
+    model = copy_freeze_model(model, 4)
+    model = add_top_layer(model)
+    model = train(model, auto=False)
+
+    print("Kernel size: %d * %d, Classification rate %02.5f" % (size, size, model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+    model.save_weights('part3_1.h5')
+
+    model = part2(size)
+    model = copy_freeze_model(model, 4)
+    model = add_top_layer(model)
+    model = train(model, auto=False)
+    model.save_weights('part3_2.h5')
+    print("Kernel size: %d * %d, Classification rate %02.5f" % (size, size, model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+
+def part4(size):
+    pass
 
 def main():
-    for size in [1, 3, 5]:
-        part1(size)
-
-
+    part3()
 if __name__ == '__main__':
     main()
