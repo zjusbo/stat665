@@ -158,6 +158,7 @@ def part3():
 
 def part4(weights):
     global X_train, Y_train, X_test, Y_test
+    size = 3
     model = Sequential()
 
     model.add(Convolution2D(32, size, size, border_mode='same',
