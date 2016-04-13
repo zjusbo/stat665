@@ -1,8 +1,15 @@
+
+
+
 part 1
 kernel_size   accuracy
 1            0.91500
 3            0.94700
 5            0.93850
+The 3 * 3 kernel performs best. The classification rate in using CNN performs better. Howerver, I don't think there are any compartibility between this pset and the previous one since there are 3 response classes in previous pset while there are only 2 in this one. And it's easier to get a higher classification rate in a small resonse classes situation. 3 * 3 kernel gives the best result. It may because this size can capture local features best. 1 * 1 is too small while 5 * 5 is too vague.
+
+1 * 1 is an extreme case. We are essentially saying low level features are per-pixel, and they don't affect neighbouring pixels at all, and that we should apply the same operation to all pixels.
+
 
 part 2
 kernel_size  MSE
@@ -10,7 +17,20 @@ kernel_size  MSE
 3            0.03169
 5 			 0.03552
 
+The MSE of 1 * 1 kernel is the smallest. It's because this kernel can preserve most information of original image. The dropout layer drops some information so the MSE is not 0.
+
 part 3
 
-first 3      0.94450
-second       0.91500
+train       test
+0.98660    0.94450
+0.94110    0.91500
+
+The test accuracy is less than training accuracy, which is natural. The accuracy using autoencoder to train the convolutional 
+
+part 4
+
+1         0.66290
+2         0.56300
+
+part 5
+0.94700

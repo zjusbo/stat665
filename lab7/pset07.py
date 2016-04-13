@@ -10,7 +10,7 @@ from keras.utils import np_utils
 
 
 # set this to false once you have tested your code!
-TEST = True
+TEST = False
 # input image dimensions
 img_rows, img_cols = 32, 32
 # the CIFAR10 images are RGB
@@ -40,8 +40,6 @@ def load_data(nclass):
         X_test = X_test[:1000]
         Y_test = Y_test[:1000]
     return X_train, Y_train, X_test, Y_test
-
-
 
 X_train, Y_train, X_test, Y_test = load_data(2)
 # Note: You'll need to do this manipulation to construct the
@@ -108,7 +106,7 @@ def train(model, auto):
         model.compile(loss='mean_squared_error',
               optimizer=RMSprop())
 
-        model.fit(X_train, X_train_auto_output, batch_size=32, nb_epoch=1,
+        model.fit(X_train, X_train_auto_output, batch_size=32, nb_epoch=25,
             verbose=1, show_accuracy=True,
             validation_split=0.2,
             callbacks=[EarlyStopping(monitor='val_loss', patience=2)]
@@ -117,7 +115,7 @@ def train(model, auto):
         model.compile(loss='categorical_crossentropy',
               optimizer=RMSprop())
 
-        model.fit(X_train, Y_train, batch_size=32, nb_epoch=1,
+        model.fit(X_train, Y_train, batch_size=32, nb_epoch=25,
             verbose=1, show_accuracy=True,
             validation_split=0.2,
             callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
@@ -158,6 +156,7 @@ def part3():
 
 def part4(weights):
     global X_train, Y_train, X_test, Y_test
+    size = 3
     model = Sequential()
 
     model.add(Convolution2D(32, size, size, border_mode='same',
@@ -206,8 +205,27 @@ def part5():
 
     print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
     
+def part6(weights):
+    size = 3
+    model = Sequential()
+
+    model.add(Convolution2D(32, size, size, border_mode='same',
+                            input_shape=(img_channels, img_rows, img_cols)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.5))
+
+    model = add_top_layer(model)
+
+    model.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop())
+    model.load_weights(weights)
+
+
+    print("Classification rate %02.5f" % (model.evaluate(X_train, Y_train, show_accuracy=True)[1]))
+
 def main():
-    part4('part3_1.h5')
-    part4('part3_2.h5')
+    part6('part3_1.h5')
+    part6('part3_2.h5')
 if __name__ == '__main__':
     main()
