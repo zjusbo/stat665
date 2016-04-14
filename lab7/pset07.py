@@ -129,7 +129,7 @@ def add_top_layer(model):
     model.add(Dense(512))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(2))
+    model.add(Dense(10))
     model.add(Activation('softmax'))
     return model
     
@@ -228,7 +228,6 @@ def part7():
     part5()
 
 def main():
-    part6('part3_1.h5')
-    part6('part3_2.h5')
+    part7()
 if __name__ == '__main__':
     main()

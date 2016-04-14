@@ -29,8 +29,12 @@ The test accuracy is less than training accuracy, which is natural. The accuracy
 
 part 4
 
+
 1         0.66290
 2         0.56300
 
 part 5
 0.94700
+
+part6
+0.71810
