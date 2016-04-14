@@ -41,7 +41,7 @@ def load_data(nclass):
         Y_test = Y_test[:1000]
     return X_train, Y_train, X_test, Y_test
 
-X_train, Y_train, X_test, Y_test = load_data(2)
+X_train, Y_train, X_test, Y_test = load_data(10)
 # Note: You'll need to do this manipulation to construct the
 # output of the autoencoder. This is because the autoencoder
 # will have a flattend dense layer on the output, and you need
@@ -223,6 +223,9 @@ def part6(weights):
 
 
     print("Classification rate %02.5f" % (model.evaluate(X_train, Y_train, show_accuracy=True)[1]))
+
+def part7():
+    part5()
 
 def main():
     part6('part3_1.h5')
