@@ -9,7 +9,41 @@ from keras.layers.normalization import BatchNormalization
 # download these from here:
 #    http://euler.stat.yale.edu/~tba3/class_data/chi_python
 
-X_train = np.genfromtxt('chiCrimeMat_X_train.csv', delimiter=',')
-Y_train = np.genfromtxt('chiCrimeMat_Y_train.csv', delimiter=',')
-X_test = np.genfromtxt('chiCrimeMat_X_test.csv', delimiter=',')
-Y_test = np.genfromtxt('chiCrimeMat_Y_test.csv', delimiter=',')
+def nn_1000_500():
+	
+	print("loading train...")
+	X_train = np.genfromtxt('chiCrimeMat_X_train.csv', delimiter=',')
+	Y_train = np.genfromtxt('chiCrimeMat_Y_train.csv', delimiter=',')
+
+	model = Sequential()
+	# layer 1
+	model.add(Dense(1000, input_shape = (X_train.shape[1],)))
+	model.add(Activation('relu'))
+	model.add(Dropout(0.2))
+
+	# layer 2
+	model.add(Dense(500))
+	model.add(Activation('relu'))
+	model.add(Dropout(0.2))
+
+	# output layer
+	model.add(Dense(5))
+	model.add(Activation('softmax'))
+
+
+	model.compile(loss='categorical_crossentropy',
+	              optimizer=RMSprop())
+
+
+	model.fit(X_train, Y_train, batch_size=32, nb_epoch=25,
+	            verbose=1, show_accuracy=True,
+	            validation_split=0.2,
+	            callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
+	del X_train
+	del Y_train
+	print("loading test...")
+	X_test = np.genfromtxt('chiCrimeMat_X_test.csv', delimiter=',')
+	Y_test = np.genfromtxt('chiCrimeMat_Y_test.csv', delimiter=',')
+	print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
+if __name__ == '__main__':
+	nn_1000_500()    

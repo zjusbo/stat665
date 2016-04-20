@@ -6,7 +6,8 @@ from keras.optimizers import SGD, RMSprop
 from keras.layers.normalization import BatchNormalization
 from keras.callbacks import EarlyStopping
 from sklearn import svm
-
+from sklearn import metrics
+from sklearn import linear_model
 # load the STL-10 crime data into Python. you need to first
 # download these from here:
 #    http://euler.stat.yale.edu/~tba3/class_data/stl10
@@ -41,13 +42,30 @@ def part1_nn():
 	            callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
 	print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy=True)[1]))
 
-def part1_svm():
+def part1_svm_SVC():
 	global Y_train, Y_test
-	clf = svm.SVC(decision_function_shape='ovo')
+	clf = svm.SVC()
 	Y_train = np.dot(Y_train, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
 	Y_test = np.dot(Y_test, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
 	clf.fit(X_train, Y_train)
 	print("Mean accuracy: %02.5f" % (clf.score(X_test, Y_test)))
 
+def part1_svm_linearSVC():
+	global Y_train, Y_test
+	clf = svm.LinearSVC()
+	Y_train = np.dot(Y_train, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
+	Y_test = np.dot(Y_test, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
+	clf.fit(X_train, Y_train)
+	print("Mean accuracy: %02.5f" % (clf.score(X_test, Y_test)))
+
+def part1_lasso():
+	global Y_train, Y_test
+	clf = linear_model.Lasso(alpha = 0.1)
+	Y_train = np.dot(Y_train, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
+	Y_test = np.dot(Y_test, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
+	clf.fit(X_train, Y_train)
+	print("Mean accuracy: %02.5f" % (clf.score(X_test, Y_test)))
+
+
 if __name__ == '__main__':
-	part1_svm()
+	part1_lasso()
