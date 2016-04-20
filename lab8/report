@@ -2,3 +2,5 @@ print(X_train.shape) 5000 * 4096
 part1
 Dense neural network with 1000 hidden nodes
 0.83562
+SVM
+Mean accuracy: 0.41387
