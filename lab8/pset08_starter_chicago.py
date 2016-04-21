@@ -20,11 +20,11 @@ model.add(Dense(1000, input_shape = (X_train.shape[1],)))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 
-model.add(Dense(500))
+model.add(Dense(1000))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 
-model.add(Dense(100))
+model.add(Dense(1000))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 
