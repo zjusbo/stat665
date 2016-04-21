@@ -24,11 +24,6 @@ model.add(Dense(500))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 
-model.add(Dense(100))
-model.add(Activation('relu'))
-model.add(Dropout(0.2))
-
-
 model.add(Dense(5))
 model.add(Activation("softmax"))
 
