@@ -27,7 +27,7 @@ if test == True:
 
 def part1_nn():
 	model = Sequential()
-	model.add(Dense(1000, input_shape=(4096,)))
+	model.add(Dense(200, input_shape=(4096,)))
 	model.add(Activation('relu'))
 	model.add(Dropout(0.5))
 	model.add(Dense(10))
@@ -60,7 +60,7 @@ def part1_svm_linearSVC():
 
 def part1_lasso():
 	global Y_train, Y_test
-	clf = linear_model.Lasso(alpha = 0.1)
+	clf = linear_model.Lasso(alpha = 0, max_iter=1000)
 	Y_train = np.dot(Y_train, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
 	Y_test = np.dot(Y_test, np.array([0,1,2,3,4,5,6,7,8,9])) # convert one-hot encode to 1 column
 	clf.fit(X_train, Y_train)
@@ -68,4 +68,4 @@ def part1_lasso():
 
 
 if __name__ == '__main__':
-	part1_lasso()
+	part1_nn()

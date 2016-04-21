@@ -3,6 +3,12 @@ part1
 
 Dense neural network with 1000 hidden nodes
 0.83562
+500 nodes
+0.93012
+200 nodes
+0.92725
+100 nodes
+0.92750
 
 SVM SVC
 Mean accuracy: 0.41387
@@ -11,4 +17,15 @@ SVM LinearSVC
 Mean accuracy: 0.94150
 
 Lasso
+0.03
+0.76438
+0.1
 Mean accuracy: 0.75018
+0.3
+0.70098
+1
+0.57709
+
+part2 
+1000 500
+0.75582

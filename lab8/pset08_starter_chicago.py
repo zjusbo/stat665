@@ -4,6 +4,7 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.optimizers import SGD, RMSprop
 from keras.layers.normalization import BatchNormalization
+from keras.callbacks import EarlyStopping
 
 # load the chicago crime data into Python. you need to first
 # download these from here:

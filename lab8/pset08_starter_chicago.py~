@@ -1,0 +1,44 @@
+import numpy as np
+
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation
+from keras.optimizers import SGD, RMSprop
+from keras.layers.normalization import BatchNormalization
+from keras.callbacks import EarlyStopping
+
+# load the chicago crime data into Python. you need to first
+# download these from here:
+#    http://euler.stat.yale.edu/~tba3/class_data/chi_python
+
+X_train = np.genfromtxt('chiCrimeMat_X_train.csv', delimiter=',')
+Y_train = np.genfromtxt('chiCrimeMat_Y_train.csv', delimiter=',')
+
+
+model = Sequential()
+
+model.add(Dense(1000, input_shape = (X_train.shape[1],)))
+model.add(Activation('relu'))
+model.add(Dropout(0.2))
+
+model.add(Dense(500))
+model.add(Activation('relu'))
+model.add(Dropout(0.2))
+
+model.add(Dense(500))
+model.add(Activation('relu'))
+model.add(Dropout(0.2))
+
+
+model.add(Dense(5))
+model.add(Activation("softmax"))
+
+model.compile(loss='categorical_crossentropy', optimizer=RMSprop())
+
+model.fit(X_train, Y_train, batch_size=32, nb_epoch=25, 
+		verbose=1, show_accuracy=True, validation_split=0.2, callbacks=[EarlyStopping(monitor='val_loss', patience=2)])
+del X_train
+del Y_train
+X_test = np.genfromtxt('chiCrimeMat_X_test.csv', delimiter=',')
+Y_test = np.genfromtxt('chiCrimeMat_Y_test.csv', delimiter=',')
+
+print("Classification rate %02.5f" % (model.evaluate(X_test, Y_test, show_accuracy = True)[1]))
